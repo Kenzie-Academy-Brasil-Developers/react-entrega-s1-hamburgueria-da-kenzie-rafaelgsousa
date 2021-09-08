@@ -3,7 +3,7 @@ import {useState} from "react"
 
 import MenuContainer from "./componentes/MenuContainer"
 
-import Product from './componentes/Product';
+import Sales from "./componentes/Sales"
 
 function App() {
 
@@ -24,7 +24,6 @@ function App() {
   const [cartTotal, setCartTotal] = useState(0)
 
   function showProducts(item){
-    console.log(item)
       const nome = products.filter((e)=>e.name===item);
       nome.length===0?
       setFilteredProducts(products)
@@ -34,22 +33,19 @@ function App() {
 
   function handleClick(productId){
       const produto = products.find((e)=>e.id===productId)
+      currentSale.indexOf(produto)===-1?
       setCurrentSale([produto,...currentSale])
+      :
+      setCurrentSale(currentSale)
   }
 
   return (
     <div className="App">
       <header className="App-header">
         
-        <MenuContainer produtos={products} filter={filteredProducts} showProducts={showProducts}/>
-        <div className="subtotal">   Sub Total : R$ {currentSale.reduce((a,e)=>a + e.price,0.00)}</div>
-        <ul>
-          {currentSale.map((e)=> <li>
-              <h3>{e.name}</h3>
-              <p className="categoria">Categoria: {e.category}</p>
-              <p>Preço - R$ {e.price}</p>
-            </li>)}
-        </ul>
+        <MenuContainer produtos={products} filter={filteredProducts} showProducts={showProducts} handleClick={handleClick}/>
+        
+        <Sales currentSales={currentSale}/>
       </header>
     </div>
   );
